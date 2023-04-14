@@ -1,4 +1,5 @@
 from AI import *
+import random
 
 def format_board(content):
     # transforme la chaine de 42 caractères en un tableau à 2 dimensions de 6 lignes et 7 colonnes
@@ -70,6 +71,17 @@ def player_choose_column(board):
         # si la colonne est pleine, on recommence
         if not can_play_in_column(board, int(choice)):
             print("Cette colonne est pleine !")
+            continue
+        break
+    # on renvoie la colonne choisie
+    return choice
+
+def ai_choose_column(board):
+    print("Au tour de l'IA...")
+    while True:
+        choice = random.randint(0, 6)
+        # si la colonne est pleine, on recommence
+        if not can_play_in_column(board, int(choice)):
             continue
         break
     # on renvoie la colonne choisie
