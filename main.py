@@ -1,13 +1,22 @@
 from gameManager import *
 from AI import *
 
+def main():
+    board = create_board()
+
+    while not is_game_over(board):
+        # tour du joueur
+        column = player_choose_column(board)
+        play_in_column(board, column, 1)
+        print_board(board)
+        if is_winning_move(board, 1):
+            print("Tu as gagné !")
+            break
+        if is_board_full(board):
+            print("Match nul !")
+            break
+        # tour de l'IA
+
+
 if __name__ == '__main__':
-    # lecture du fichier
-    with open('input.txt', 'r') as f:
-        content = f.read()
-    # formatage du tableau à partir de la chaine de caractères
-    board = format_board(content)
-    # affichage du tableau
-    print_board(board)
-    print("Score du joueur 1 : ",evaluate(board, 1))
-    print("Score du joueur 2 : ",evaluate(board, 2))
+    main()

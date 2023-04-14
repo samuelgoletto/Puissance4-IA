@@ -72,13 +72,3 @@ def is_winning_move(board, player):
                 return True
     
     return False
-
-def is_board_full(board):
-    for row in range(6):
-        for col in range(7):
-            if board[row][col] == 0:
-                return False
-    return True
-
-def is_game_over(board):
-    return is_winning_move(board, 1) or is_winning_move(board, 2) or is_board_full(board)
