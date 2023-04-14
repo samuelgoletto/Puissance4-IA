@@ -27,6 +27,11 @@ def print_board(board):
 
 def evaluate(board, player):
     score = 0
+
+    # Ajoute du score si le joueur a des jetons sur la colonne du milieu
+    center_array = [int(i) for i in list(zip(*board))[3]]
+    center_count = center_array.count(player)
+    #score += center_count * 3
     
     # Vérifier les alignements horizontaux
     for row in range(6):
@@ -56,15 +61,11 @@ def evaluate(board, player):
 
 def evaluate_pieces(pieces, player):
     if pieces.count(player) == 4:
-        return 1000
-    elif pieces.count(player) == 3 and pieces.count(0) == 1:
         return 100
+    elif pieces.count(player) == 3 and pieces.count(0) == 1:
+        return 5
     elif pieces.count(player) == 2 and pieces.count(0) == 2:
-        return 10
-    elif pieces.count(player) == 1 and pieces.count(0) == 3:
-        return 1
-    elif pieces.count(player) == 0 and pieces.count(0) == 4:
-        return 0
+        return 2
     else:
         return 0
 
