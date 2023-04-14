@@ -31,7 +31,7 @@ def evaluate(board, player):
     # Ajoute du score si le joueur a des jetons sur la colonne du milieu
     center_array = [int(i) for i in list(zip(*board))[3]]
     center_count = center_array.count(player)
-    #score += center_count * 3
+    score += center_count * 3
     
     # Vérifier les alignements horizontaux
     for row in range(6):
