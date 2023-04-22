@@ -24,7 +24,7 @@ class Box:
 		# Content
 		for line in text:
 			res += Box.box['vertical'] + spaces_left_right
-			res += line + ' ' * (width - len(line))
+			res += line + ' ' * (width - pad_x * 2 - len(line))
 			res += spaces_left_right + Box.box['vertical'] + '\n'
 
 		# Spaces below

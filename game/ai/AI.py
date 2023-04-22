@@ -1,4 +1,4 @@
-from game.game_manager import Board
+from game.entities import Board, Player
 
 
 def evaluate(board: Board, player: int) -> int:
@@ -47,7 +47,7 @@ def evaluate_pieces(pieces: iter, player: int) -> int:
         return 0
 
 
-def is_winning_move(board: Board, player: int) -> bool:
+def is_winning_move(board: Board, player: Player) -> bool:
     # Vérifier les alignements horizontaux
     for row in range(6):
         for col in range(4):

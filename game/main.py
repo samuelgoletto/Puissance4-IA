@@ -1,33 +1,44 @@
-from game.game_manager import *
+from game.game_manager import player_choose_column
+from game.entities import Player, Board
+from ai import is_winning_move
 
 
 def main():
+
+    players_and_sentences = {
+        Player('h', strategy=player_choose_column): {
+            'next': 'À toi de jouer !',
+            'win': 'Tu as gagné !'
+        },
+        Player('m'): {
+            'next': 'Au tour de l\'IA...',
+            'win': 'L\'IA a gagné !'
+        }
+    }
+
     board = Board()
     print(board)
 
-    while not is_game_over(board):
-        # tour du joueur
-        player_column = player_choose_column(board)
-        play_in_column(board, player_column, 1)
-        print(board)
-        if is_winning_move(board, 1):
-            print("Tu as gagné !")
-            break
-        if board.is_full():
-            print("Match nul !")
-            break
+    while True:
+        for player, msg in players_and_sentences.items():
+            print(msg['next'])
 
-        # tour de l'IA
-        ai_column = ai_choose_column(board)
-        play_in_column(board, ai_column, 2)
-        print(board)
-        if is_winning_move(board, 2):
-            print("L'IA a gagné !")
-            break
-        if board.is_full():
-            print("Match nul !")
-            break
-    print("Fin de la partie !")
+            # Moves
+            column = player.choose_column_to_play(board)
+            board.play_in_column(column, player)
+            print(board)
+
+            # Endgame checks
+            if is_winning_move(board, player):
+                print(msg['win'])
+                break
+            if board.is_full():
+                print('Match nul !')
+                break
+        else:  # Not endgame
+            continue
+        print('Fin de la partie !')
+        break
 
 
 if __name__ == '__main__':
