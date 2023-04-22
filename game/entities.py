@@ -10,31 +10,29 @@ class Player: pass
 
 
 class Player:
-    players = {}
+    players = {'0': None}
 
-    def __new__(cls, id: str, /, *, strategy: Callable = None):
+    def __new__(cls, id: str, /, *, strategy: Callable = None) -> Player:
         """Makes sure there is only unique instances of this type, uniqueness being based on their `id`"""
-        if id not in Player.players:
-            Player.players[id] = instance = object.__new__(cls)
-            return instance
-        else:
+
+        if id in Player.players:
             return Player.players[id]
 
-    def __init__(player, id: str, /, *, strategy: Callable = None):
+        Player.players[id] = player = object.__new__(cls)
         player.id = id
         player.strategy = strategy if strategy is not None else Player.default_strategy
-        a = True if False is not None else False
+        return player
 
     def __repr__(player) -> str:
         return f'{type(player).__name__}({player.id})'
 
-    def __str__(player):
+    def __str__(player) -> str:
         return str(player.id)
 
-    def delete(player):
+    def delete(player) -> None:
         del Player.players[player.id]
 
-    def choose_column_to_play(player, board: Board):
+    def choose_column_to_play(player, board: Board) -> int:
         return player.strategy(board)
 
     @staticmethod
@@ -42,15 +40,15 @@ class Player:
         """Random selection strategy"""
 
         remaining = list(range(7))
-        choice = remaining.pop(random.choice(remaining))
+        remaining.remove(choice := random.choice(remaining))
         while board.is_column_full(choice) and remaining:  # si la colonne est pleine, on recommence
-            choice = remaining.pop(random.choice(remaining))
+            remaining.remove(choice := random.choice(remaining))
 
         return choice  # Choice could be invalid if the board is already full
 
 
 class Board:
-    def __init__(board, grid: list = None):
+    def __init__(board, grid: list[list[Player]] = None) -> None:
         """Crée une instance de `Board` contenant un tableau 7×6 vide"""
         if grid is None:
             board.inner = [[None] * 7 for _line in range(6)]
@@ -58,7 +56,7 @@ class Board:
             board.inner = grid
 
     @staticmethod
-    def new(from_: str = None):
+    def new(from_: str = None) -> Board:
         """Création du plateau selon deux options :
         * Création d'un plateau vide
         * Création d'un plateau à partir d'un `str` contenant l'enchaînement de chaque ligne
@@ -68,22 +66,7 @@ class Board:
         if from_ is None:  # Build a fresh new board
             return Board()
 
-        board = []
-        for i in range(6):
-            column = []
-            for j in range(7):
-                column.append(from_[5 - i + j * 6])
-            board.append(column)
-        # remplace tous les h par des 1 et les m par des 2.
-        for i in range(6):
-            for j in range(7):
-                if board[i][j] == 'h':
-                    board[i][j] = 1
-                elif board[i][j] == 'm':
-                    board[i][j] = 2
-                else:
-                    board[i][j] = 0
-        return Board(board)
+        return Board([[Player(from_[5 - i + j * 6]) for j in range(7)] for i in range(6)])
 
     def __repr__(board) -> str:
         return board.inner.__repr__()
@@ -93,7 +76,7 @@ class Board:
         display = lambda cell: '.' if cell is None else str(cell)
         return Box.encapsulate('\n'.join(' '.join(map(display, line)) for line in board.inner))
 
-    def __getitem__(board, item) -> list:
+    def __getitem__(board, item) -> list[Player]:
         return board.inner[item]
 
     def __setitem__(board, key, value) -> None:
@@ -108,11 +91,11 @@ class Board:
         * True: otherwise"""
         return all(map(all, board.inner))
 
-    def is_column_full(board, column: int):
+    def is_column_full(board, column: int) -> bool:
         """If the column is full, the cell on top will contain something (so not false)"""
-        return board.inner[0][column]
+        return bool(board.inner[0][column])
 
-    def play_in_column(board, column: int, player: Player):
+    def play_in_column(board, column: int, player: Player) -> None:
         """`player` making its move in the `column`"""
         for i in range(5, -1, -1):
             if board[i][column] is None:

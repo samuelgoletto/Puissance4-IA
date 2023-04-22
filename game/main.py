@@ -3,7 +3,7 @@ from game.entities import Player, Board
 from ai import is_winning_move
 
 
-def main():
+def main() -> None:
 
     players_and_sentences = {
         Player('h', strategy=player_choose_column): {
