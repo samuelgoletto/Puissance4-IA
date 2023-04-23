@@ -1,3 +1,4 @@
+
 class Box:
 	box = {corner: chr(ord_) for corner, ord_ in {
 		'top left': 9556, 'top right': 9559,

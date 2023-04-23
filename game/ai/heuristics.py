@@ -1,4 +1,5 @@
 from game.entities import Board, Player
+
 from typing import Union
 
 

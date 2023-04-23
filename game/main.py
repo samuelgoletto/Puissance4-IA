@@ -1,15 +1,16 @@
-from game.game_manager import player_choose_column, is_winning_move
+from game.game_manager import is_winning_move
 from game.entities import Player, Board
+import ai.strategies as strat
 
 
 def main() -> None:
 
     players_and_sentences = {
-        Player('h', strategy=player_choose_column): {
+        Player('h', strategy=strat.interactive_strategy): {
             'next': 'À toi de jouer !',
             'win': 'Tu as gagné !'
         },
-        Player('m'): {
+        Player('m', strategy=strat.random_strategy): {
             'next': 'Au tour de l\'IA...',
             'win': 'L\'IA a gagné !'
         }
