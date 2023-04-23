@@ -1,6 +1,6 @@
-from game.util import Box
-
 from typing import Callable, Union
+
+from game.util import Box
 
 
 # For type annotation on these type's method's parameters
@@ -11,7 +11,7 @@ class Player: pass
 class Player:
     players = {'0': None}
 
-    def __new__(cls, id: str, /, *, strategy: Callable) -> Player:
+    def __new__(cls, id: str, /, *, strategy: Callable = None) -> Player:
         """Makes sure there is only unique instances of this type, uniqueness being based on their `id`"""
 
         if id in Player.players:

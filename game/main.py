@@ -1,6 +1,6 @@
-from game.game_manager import is_winning_move
-from game.entities import Player, Board
 import game.ai.strategies as strat
+from game.entities import Player, Board
+from game.game_manager import is_winning_move
 
 
 def main() -> None:
@@ -10,7 +10,7 @@ def main() -> None:
             'next': 'À toi de jouer !',
             'win': 'Tu as gagné !'
         },
-        Player('m', strategy=strat.one_step_further_strategy): {
+        Player('m', strategy=strat.minimax_strategy): {
             'next': 'Au tour de l\'IA...',
             'win': 'L\'IA a gagné !'
         }
