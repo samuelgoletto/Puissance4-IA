@@ -1,6 +1,6 @@
 from game.game_manager import is_winning_move
 from game.entities import Player, Board
-import ai.strategies as strat
+import game.ai.strategies as strat
 
 
 def main() -> None:
