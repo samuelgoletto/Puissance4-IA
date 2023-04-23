@@ -1,6 +1,6 @@
 from game.util import Box
 
-from typing import Callable
+from typing import Callable, Union
 import random
 
 
@@ -48,7 +48,7 @@ class Player:
 
 
 class Board:
-    def __init__(board, grid: list[list[Player]] = None) -> None:
+    def __init__(board, grid: list[list[Union[Player, None]]] = None) -> None:
         """Crée une instance de `Board` contenant un tableau 7×6 vide"""
         if grid is None:
             board.inner = [[None] * 7 for _line in range(6)]
@@ -101,3 +101,10 @@ class Board:
             if board[i][column] is None:
                 board[i][column] = player
                 break
+
+    def to_sequence(board) -> str:
+        result = ''
+        cell_to_str = lambda cell: '0' if cell is None else str(cell)
+        for column in zip(*board.inner):
+            result += ''.join(map(cell_to_str, column))[::-1]
+        return result

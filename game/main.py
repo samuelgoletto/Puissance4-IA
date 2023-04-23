@@ -1,6 +1,5 @@
-from game.game_manager import player_choose_column
+from game.game_manager import player_choose_column, is_winning_move
 from game.entities import Player, Board
-from ai import is_winning_move
 
 
 def main() -> None:
