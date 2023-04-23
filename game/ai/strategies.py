@@ -1,9 +1,11 @@
 from game.entities import Board
+from game.ai.heuristics import evaluate
+from game.entities import Player
 
 import random
 
 
-def random_strategy(board: Board) -> int:
+def random_strategy(board: Board, _player_unused: Player = None) -> int:
     """Random selection strategy"""
 
     remaining = list(range(7))
@@ -14,7 +16,7 @@ def random_strategy(board: Board) -> int:
     return choice  # Choice could be invalid if the board is already full
 
 
-def interactive_strategy(board: Board) -> int:
+def interactive_strategy(board: Board, _player_unused: Player = None) -> int:
     while True:
         choice = input("Choisis une colonne (1-7) : ")
         # si ce n'est pas un chiffre entre 1 et 7, on recommence
@@ -28,3 +30,12 @@ def interactive_strategy(board: Board) -> int:
         break
     # on renvoie la colonne choisie
     return choice
+
+
+def one_step_further_strategy(board: Board, player: Player) -> int:
+
+    next_move_scores = {}
+    for column in range(7):
+        next_move_scores[column] = evaluate(board.copy().play_in_column(column, player), player)
+
+    return max(next_move_scores.items(), key=lambda t: t[1])[0]

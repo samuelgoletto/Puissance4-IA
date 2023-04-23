@@ -10,7 +10,7 @@ def main() -> None:
             'next': 'À toi de jouer !',
             'win': 'Tu as gagné !'
         },
-        Player('m', strategy=strat.random_strategy): {
+        Player('m', strategy=strat.one_step_further_strategy): {
             'next': 'Au tour de l\'IA...',
             'win': 'L\'IA a gagné !'
         }
