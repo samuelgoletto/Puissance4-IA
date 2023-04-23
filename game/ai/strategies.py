@@ -28,8 +28,3 @@ def interactive_strategy(board: Board) -> int:
         break
     # on renvoie la colonne choisie
     return choice
-
-
-def intelligent_strategy(board: Board) -> str:
-
-    return ''

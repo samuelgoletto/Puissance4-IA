@@ -1,4 +1,4 @@
-from game.entities import Board, Player
+from entities import Board, Player
 
 #
 # def is_game_over(board: Board, players: iter) -> bool:
