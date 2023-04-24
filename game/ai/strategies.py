@@ -53,13 +53,15 @@ def minimax(board, alpha, beta, player, depth):
         if is_winning_move(board1, player):
             return evaluate(board1, player), i
 
-    _max = 360
+    _max = 43  # du chapeau
     if beta > _max:
         beta = _max
         if alpha >= beta:
             # print("Random strategy empty window")
             return beta, random_column
 
+    best_score = -float('inf')
+    best_column = None
     for x in range(7):  # compute the score of all possible next move and keep the best one
         if not board.is_column_full(x):
             board1 = board.copy()
@@ -69,7 +71,9 @@ def minimax(board, alpha, beta, player, depth):
                 0]  # explore opponent's score within [-beta;-alpha] windows:
             # no need to have good precision for score better than beta (opponent's score worse than -beta)
             # no need to check for score worse than alpha (opponent's score worse better than -alpha)
-
+            if score > best_score:
+                best_score = score
+                best_column = x
             if score >= beta:  # prune the exploration if we find a possible move better than what we were looking for.
                 return score, x
             if score > alpha:  # reduce the [alpha;beta] window for next exploration, as we only
@@ -77,10 +81,10 @@ def minimax(board, alpha, beta, player, depth):
                 alpha = score
 
     # print(f"Random strategy score too low, alpha: {alpha}")
-    return alpha, random_column
+    return alpha, best_column
 
 
 def minimax_strategy(board: Board, player: Player) -> int:
     """Minimax strategy"""
-    score, column = minimax(board, -360, 360, player, 6)
+    score, column = minimax(board, -43, 43, player, 2)
     return column

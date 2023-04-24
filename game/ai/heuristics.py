@@ -1,6 +1,6 @@
-from game.entities import Board, Player
-
 from typing import Union
+
+from game.entities import Board, Player
 
 
 def evaluate(board: Board, player: Player) -> float:
@@ -47,3 +47,44 @@ def evaluate_pieces(pieces: list[Union[Player, None]], player: Player) -> float:
         return 2
     else:
         return 0
+
+
+# Chapeau
+if __name__ == '__main__':
+    board = Board()
+
+    board[5][0] = Player('h')
+    board[4][0] = Player('h')
+    board[3][0] = Player('h')
+    board[2][0] = Player('m')
+    board[1][0] = Player('h')
+    board[0][0] = Player('h')
+
+    board[5][1] = Player('h')
+    board[4][1] = Player('h')
+    board[3][1] = Player('m')
+    board[2][1] = Player('h')
+    board[1][1] = Player('h')
+    board[0][1] = Player('h')
+
+    board[5][2] = Player('h')
+    board[4][2] = Player('h')
+    board[3][2] = Player('h')
+    board[2][2] = Player('m')
+    board[1][2] = Player('h')
+    board[0][2] = Player('h')
+
+    board[5][3] = Player('m')
+    board[4][3] = Player('m')
+    board[3][3] = Player('m')
+
+    board[5][4] = Player('h')
+    board[4][4] = Player('h')
+
+    board[5][5] = Player('h')
+    board[4][5] = Player('h')
+    board[3][5] = Player('h')
+
+    board[5][6] = Player('h')
+
+    print(evaluate(board, Player('h')))
