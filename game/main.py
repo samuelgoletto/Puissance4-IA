@@ -18,6 +18,7 @@ def main() -> None:
 
     board = Board()
     print(board)
+    print('sequence:', board.to_sequence())
 
     while True:
         for player, msg in players_and_sentences.items():
@@ -27,6 +28,7 @@ def main() -> None:
             column = player.choose_column_to_play(board)
             board.play_in_column(column, player)
             print(board)
+            print('sequence:', board.to_sequence())
 
             # Endgame checks
             if is_winning_move(board, player):

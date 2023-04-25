@@ -50,7 +50,7 @@ def evaluate_pieces(pieces: list[Union[Player, None]], player: Player) -> float:
 
 
 # Chapeau
-if __name__ == '__main__':
+if __name__ == '__main__':  # Tests
     board = Board()
 
     board[5][0] = Player('h')

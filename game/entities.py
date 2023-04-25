@@ -1,6 +1,7 @@
 from typing import Callable, Union
 
 from game.util import Box
+from game.exceptions import *
 
 
 # For type annotation on these type's method's parameters
@@ -47,12 +48,39 @@ class Board:
         elif type(from_) is list:  # Copy
             board.inner = from_
         elif type(from_) is str:
-            board.inner = [[Player(from_[5 - i + j * 6]) for j in range(7)] for i in range(6)]
+            board.input = from_
+            try:
+                board.inner = [[Player(from_[5 - i + j * 6]) for j in range(7)] for i in range(6)]
+            except IndexError:
+                board.inner = [[None] * 7 for k in range(6)]  # Error
         else:
             raise TypeError(f'Cannot instantiate `{type(board).__name__}` from `{type(from_).__name__}`')
 
     def copy(board) -> Board:
         return Board([list(row) for row in board.inner])
+
+    def validate(board) -> None:
+        if hasattr(board, "input"):
+            if (length := len(board.input)) != 42:
+                raise InvalidFormatError(f'The given grid should be exactly 42, but contains {length} ' +
+                                         'characters instead')
+
+            if (invalid_chars := ''.join(sorted(set(board.input.replace('0', '').replace('h', '').replace('m', ''))))) != '':
+                raise InvalidFormatError(f'The given grid should contains only characters in the sequence \'0hm\' ' +
+                                         f'but contains invalid characters from this sequence: \'{invalid_chars}\'')
+
+        for c_nbr, column in enumerate(zip(*board.inner)):
+            c = column.count(None)
+            if column[:c].count(None) != c:  # If empty cells other than on top of the column
+                raise InvalidConfiguration(f'The grid has floating empty cells on column {c_nbr}')
+
+        cells = []
+        for row in board.inner:
+            cells.extend(row)
+        player_tokens, machine_tokens = cells.count(Player('h')), cells.count(Player('m'))
+        if machine_tokens != (player_tokens - 1):  # Beginning grid
+            raise InvalidConfiguration('The grid has an invalid number of token between the player and the machine.\n' +
+                                       f'machine={machine_tokens} != player={player_tokens} -1')
 
     def __repr__(board) -> str:
         return board.inner.__repr__()

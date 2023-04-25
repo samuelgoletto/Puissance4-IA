@@ -1,9 +1,5 @@
 from game.entities import Board, Player
 
-#
-# def is_game_over(board: Board, players: iter) -> bool:
-#     return board.is_full() or any(map(lambda p: is_winning_move(board, p), players))
-
 
 def is_winning_move(board: Board, player: Player) -> bool:
     # Vérifier les alignements horizontaux

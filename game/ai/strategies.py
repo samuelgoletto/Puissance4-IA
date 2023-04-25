@@ -86,5 +86,5 @@ def minimax(board, alpha, beta, player, depth):
 
 def minimax_strategy(board: Board, player: Player) -> int:
     """Minimax strategy"""
-    score, column = minimax(board, -43, 43, player, 2)
+    score, column = minimax(board, -43, 43, player, 5)  # Depth can go from 2 to 5.., and it is slow after 7
     return column
