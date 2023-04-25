@@ -5,6 +5,9 @@ from game.entities import Board, Player
 from game.game_manager import is_winning_move
 
 
+MIN_MAX_STRATEGY_DEPTH = 5  # Depth can go from 2 to 5.., and it is slow after 7
+
+
 def random_strategy(board: Board, _player_unused: Player = None) -> int:
     """Random selection strategy"""
     remaining = list(range(7))
@@ -86,5 +89,5 @@ def minimax(board, alpha, beta, player, depth):
 
 def minimax_strategy(board: Board, player: Player) -> int:
     """Minimax strategy"""
-    score, column = minimax(board, -43, 43, player, 5)  # Depth can go from 2 to 5.., and it is slow after 7
+    score, column = minimax(board, -43, 43, player, MIN_MAX_STRATEGY_DEPTH)
     return column
